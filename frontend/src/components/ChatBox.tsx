@@ -1,7 +1,14 @@
-import type { FormEvent } from "react";
+import { useContext, type FormEvent } from "react";
 import { toast } from "sonner";
+import type { ChatType, StateType } from "../types";
+import { v4 as uuid } from "uuid";
+import { socket } from "../socket";
+import { ChatContext } from "../App";
 
 const ChatBox = () => {
+  const { state, setState } = useContext(ChatContext);
+  const userId = state.user.userId;
+
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -9,7 +16,18 @@ const ChatBox = () => {
     if (!message || message === "")
       return toast.error("Please fill the message");
 
-    toast.success(`Your message: ${message}`);
+    const newChat: ChatType = {
+      chatId: uuid(),
+      message: message.toString(),
+      userId: userId,
+    };
+
+    socket.emit("new_chat", newChat);
+
+    setState((prevState: StateType) => {
+      return { ...prevState, chats: [...prevState.chats, newChat] };
+    });
+
     event.currentTarget.reset();
   };
 

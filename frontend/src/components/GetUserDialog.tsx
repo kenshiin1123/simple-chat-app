@@ -1,12 +1,13 @@
-import type { FormEvent } from "react";
-import type { StateType, UserType } from "../types";
+import { useContext, type FormEvent } from "react";
+import type { StateType } from "../types";
 import { v4 as uuid } from "uuid";
 import { toast } from "sonner";
+import { ChatContext } from "../App";
 
-const GetUserDialog: React.FC<{
-  user: UserType;
-  setState: React.Dispatch<React.SetStateAction<StateType>>;
-}> = ({ user, setState }) => {
+const GetUserDialog = () => {
+  const { state, setState } = useContext(ChatContext);
+  const user = state.user;
+
   const onUsernameFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
