@@ -7,6 +7,7 @@ export type ChatType = {
   message: string;
   chatId: string;
   userId: UserType["userId"];
+  sender: UserType["username"];
 };
 
 export type StateType = {

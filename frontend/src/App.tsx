@@ -7,6 +7,7 @@ import { toast, Toaster } from "sonner";
 import GetUserDialog from "./components/GetUserDialog";
 import type { ChatType, StateType } from "./types";
 import { socket } from "./socket";
+import ChatHeader from "./components/ChatHeader";
 
 const initialState: StateType = {
   user: { username: "", userId: "" },
@@ -63,6 +64,7 @@ const App = () => {
     <MainContainer>
       <ChatContext.Provider value={{ state, setState }}>
         <ChatContainer>
+          <ChatHeader />
           <Chats />
           <ChatBox />
         </ChatContainer>
